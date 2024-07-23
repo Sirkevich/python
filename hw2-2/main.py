@@ -6,4 +6,6 @@ third_digit = str(user_number % 1000 // 100)
 fourth_digit = str(user_number % 100 // 10)
 fifth_digit = str(user_number % 10)
 
-print(fifth_digit + fourth_digit + third_digit + second_digit + first_digit)
+result = int(fifth_digit + fourth_digit + third_digit + second_digit + first_digit)
+
+print(result)
