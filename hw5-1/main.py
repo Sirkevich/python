@@ -23,7 +23,7 @@ for elem in user_string:
         result = False
         break
 
-    if elem == elem.capitalize() and False == (elem in numbers) and False == (elem in string.punctuation):
+    if elem == elem.capitalize() and elem not in numbers and elem not in string.punctuation:
         result = False
         break
 
