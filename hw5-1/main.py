@@ -4,7 +4,6 @@ import string
 user_string = input("Enter your string: ")
 
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-my_string_punctuation = r"""!"#$%&'()*+,-./:;<=>?@[\]^`{|}~"""
 
 result = True
 
@@ -19,7 +18,7 @@ if len(user_string) > 1 and user_string[1] == '_':
 
 for elem in user_string:
 
-    if elem in my_string_punctuation:
+    if elem in string.punctuation and elem != '_':
         result = False
         break
 
