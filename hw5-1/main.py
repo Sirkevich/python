@@ -6,6 +6,7 @@ user_string = input("Enter your string: ")
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
 
 result = True
+count = 0
 
 if user_string[0] in numbers:
     result = False
@@ -13,7 +14,7 @@ if user_string[0] in numbers:
 if user_string in keyword.kwlist:
     result = False
 
-if len(user_string) > 1 and user_string[1] == '_':
+if user_string.count('_') > 1:
     result = False
 
 for elem in user_string:
