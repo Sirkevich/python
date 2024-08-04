@@ -6,7 +6,5 @@ user_string = user_string.title()
 for elem in user_string:
     if elem in string.punctuation or elem == ' ':
         user_string = user_string.replace(elem, '')
-    else:
-        continue
 
 print(f'#{user_string[0:140]}')
