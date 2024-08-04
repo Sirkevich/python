@@ -14,7 +14,7 @@ if user_string[0] in numbers:
 if user_string in keyword.kwlist:
     result = False
 
-if user_string.count('_') > 1:
+if user_string.startswith('__'):
     result = False
 
 for elem in user_string:
