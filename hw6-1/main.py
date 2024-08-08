@@ -20,15 +20,16 @@ if first_letter < second_letter:
         first_letter += 1
 
 else:
-    while second_letter <= 65:
-        result += (chr(second_letter))
-        second_letter -= 1
+    i = 65
+    while i <= second_letter:
+        result += (chr(i))
+        i += 1
     result = lower_letters + result
 
 print(result)
 
 print(string.ascii_letters)
-
+a
 print(ord('a'))
 print(ord('Z'))
 # for let in string.ascii_letters:
