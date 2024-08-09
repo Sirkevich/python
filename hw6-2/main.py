@@ -10,7 +10,7 @@ if 0 <= number_of_seconds <= 8640000:
     if days % 10 == 1 and days != 11:
         days_word = 'день'
 
-    elif str(days)[0] in '234' or str(days)[-1] in '234' and str(days) not in ['12', '13', '14']:
+    elif days % 10 in [2, 3, 4] and days not in [12, 13, 14]:
         days_word = 'дні'
 
     else:
