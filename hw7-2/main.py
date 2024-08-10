@@ -1,4 +1,4 @@
-def correct_sentence(text: str) -> str:
+def correct_sentence(text):
     result_text = text[0].capitalize() + text[1:]
 
     if result_text[-1] != '.':
