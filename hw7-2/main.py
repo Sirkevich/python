@@ -4,7 +4,9 @@ def correct_sentence(text):
     if result_text[-1] != '.':
         result_text += '.'
 
-    print(result_text)
+    return result_text
 
 
-correct_sentence("greetings, friends")
+result = correct_sentence("greetings, Friends")
+
+print(result)
