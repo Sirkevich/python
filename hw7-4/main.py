@@ -1,32 +1,13 @@
-import random
-#
-#
-# def common_elements():
-#
-#     first_list = [random.randint(1, 100) for i in range(random.randrange(1, 10, 3))]
-#     second_list = [random.randint(1, 100) for i in range(random.randrange(1, 10, 5))]
-#
-#     set1 = set(first_list)
-#     set2 = set(second_list)
-#
-#     intersection_set = set1.intersection(set2)
-#
-#     return intersection_set
-#
-#
-# result = common_elements()
-#
-# print(result)
+def common_elements():
 
-first_list = [random.randint(1, 100) for i in range(random.randrange(1, 10, 3))]
-second_list = [random.randint(1, 100) for j in range(random.randrange(1, 10, 5))]
+    first_list = set([x for x in range(100) if x % 3 == 0])
+    second_list = set([x for x in range(100) if x % 5 == 0])
 
-print(first_list)
-print(second_list)
+    intersection_set = first_list.intersection(second_list)
 
-set1 = set(first_list)
-set2 = set(second_list)
+    return intersection_set
 
-intersection_set = set1.intersection(set2)
 
-print(intersection_set)
+result = common_elements()
+
+print(result)
