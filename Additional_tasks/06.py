@@ -10,3 +10,23 @@
 # Результати мають бути виведені за допомогою print. Введену строку "True"
 # або "False" треба привести до булевого типу "True" або "False" і потім вже
 # над булевими значеннями проводити операції.
+
+first_bool = input('Введіть перше логічне значення:')
+second_bool = input('Введіть друге логічне значення:')
+
+if first_bool == 'True':
+    first_bool = True
+else:
+    first_bool = False
+
+if second_bool == 'True':
+    second_bool = True
+else:
+    second_bool = False
+
+print('Логічне І (and) між двома значеннями:', first_bool and second_bool)
+print('Логічне АБО (or) між двома значеннями:', first_bool or second_bool)
+print('Логічне НЕ (not) першого значення:', not first_bool)
+print('Логічне НЕ (not) другого значення:', not second_bool)
+print('Результат порівняння двох значень на рівність:', first_bool == second_bool)
+print('Результат порівняння двох значень на нерівність:', first_bool != second_bool)
