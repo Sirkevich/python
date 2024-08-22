@@ -7,11 +7,12 @@ def fact(user_number):
 
 def fact_gen(begin, end, func):
     """
-     Generate factorials for the specified sequence of elements
+    Generate factorials for the specified sequence of elements
 
-     begin: first element of sequence
-     end: count of elements of sequence
-     func: function, which create elements for sequence
+    :param begin: first element of sequence
+    :param end: count of elements of sequence
+    :param func: function, which create elements for sequence
+    :return: generator object
     """
     for elem in range(end):
         yield func(begin)
