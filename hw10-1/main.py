@@ -1,11 +1,11 @@
-import math
+from inspect import isgenerator
 
 
-def fact(user_number):
-    return math.factorial(user_number)
+def pow(x):
+    return x ** 2
 
 
-def fact_gen(begin, end, func):
+def some_gen(begin, end, func):
     """
     Generate factorials for the specified sequence of elements
 
@@ -14,11 +14,14 @@ def fact_gen(begin, end, func):
     :param func: function, which create elements for sequence
     :return: generator object
     """
-    for elem in range(end):
-        yield func(begin)
-        begin += 1
+    count = 0
+    while count < end:
+        yield begin
+        begin = func(begin)
+        count += 1
 
 
-value_list = list(fact_gen(2, 3, fact))
-
-print(value_list)
+gen = some_gen(2, 4, pow)
+assert isgenerator(gen) == True, 'Test1'
+assert list(gen) == [2, 4, 16, 256], 'Test2'
+print('OK')
