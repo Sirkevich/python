@@ -15,7 +15,7 @@ def prime_generator(end):
             yield elem
 
 
-gen = prime_generator(2)
+gen = prime_generator(1)
 assert isgenerator(gen) == True, 'Test0'
 assert list(prime_generator(10)) == [2, 3, 5, 7], 'Test1'
 assert list(prime_generator(15)) == [2, 3, 5, 7, 11, 13], 'Test2'
