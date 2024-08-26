@@ -14,11 +14,9 @@ def some_gen(begin, end, func):
     :param func: function, which create elements for sequence
     :return: generator object
     """
-    count = 0
-    while count < end:
+    for elem in range(end):
         yield begin
         begin = func(begin)
-        count += 1
 
 
 gen = some_gen(2, 4, pow)
