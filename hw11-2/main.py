@@ -11,8 +11,16 @@ def generate_cube_numbers(end):
 
         current_number += 1
 
+    # current_number = 2
+    # while current_number ** 3 <= end:
+    #     yield current_number ** 3
+    #     current_number += 1
+
 
 gen = generate_cube_numbers(1000)
+
+for elem in gen:
+    print(elem)
 
 assert isgenerator(gen) == True, 'Test0'
 assert list(generate_cube_numbers(10)) == [8], 'оскільки воно менше 10.'
