@@ -8,7 +8,9 @@ def is_even(digit: int) -> bool:
     :param digit: integer number
     :return: a logical value depending on whether it is an even number
     """
-    return (digit & 1) == 0
+    bit_number = bin(digit)
+
+    return True if bit_number[-1] == '0' else False
 
 
 assert is_even(2494563894038**2) == True, 'Test1'
