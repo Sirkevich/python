@@ -11,8 +11,10 @@ def delete_html_tags(html_file, result_file='cleaned.txt'):
             if elem in html:
                 html = html.replace(elem, '')
 
+        cleaned_html = re.sub(r'^\s+', '', html, flags=re.MULTILINE)
+
     with codecs.open(result_file, 'w', 'utf-8') as file:
-        file.write(html)
+        file.write(cleaned_html)
 
 
 delete_html_tags('draft.html')
