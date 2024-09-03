@@ -11,11 +11,9 @@ class Human:
 
 
 class Student(Human):
+
     def __init__(self, gender, age, first_name, last_name, record_book):
-        self.gender = gender
-        self.age = age
-        self.first_name = first_name
-        self.last_name = last_name
+        super().__init__(gender, age, first_name, last_name)
         self.record_book = record_book
 
     def __str__(self):
@@ -23,7 +21,7 @@ class Student(Human):
                 f"{self.first_name} {self.last_name}\n"
                 f"Gender: {self.gender}\n"
                 f"Age: {self.age}\n"
-                f"Record book: {self.record_book}\n\n")
+                f"Record book: {self.record_book}\n")
 
 
 class Group:
@@ -36,46 +34,45 @@ class Group:
         self.group.add(student)
 
     def delete_student(self, last_name):
-        res = self.find_student(last_name)
-        if res in self.group:
-            self.group.remove(res)
+        current_student = self.find_student(last_name)
+
+        if current_student in self.group:
+            self.group.remove(current_student)
         else:
-            return print("Student not in the group")
+            return print("Student not in the group\n")
 
     def find_student(self, last_name):
-
-        for elem in list(self.group):
-            if last_name in str(elem):
-                return print(elem)
-            else:
-                return None
+        for student in self.group:
+            if student.last_name == last_name:
+                return student
 
     def __str__(self):
         all_students = ''
-        for elem in self.group:
-            all_students += str(elem)
 
-        return (f'Number:{self.number}'
+        for student in self.group:
+            all_students += str(student)
+
+        return (f'Group_Number:{self.number}'
                 f'\n{all_students}')
 
 
 st1 = Student('Male', 30, 'Steve', 'Jobs', 'AN142')
 st2 = Student('Female', 25, 'Liza', 'Taylor', 'AN145')
-st3 = Student('Male', 21, 'Tim', 'Kuk', 'AN146')
 
 gr = Group('PD1')
-
 gr.add_student(st1)
 gr.add_student(st2)
-gr.add_student(st3)
 
 print(gr)
 
-gr.find_student('Jobs')
+print(str(gr.find_student('Jobs')) == str(st1))
+print(gr.find_student('Jobs2'))
+print(isinstance(gr.find_student('Jobs'), Student))
 
-# gr.delete_student('Taylor')
-#
-# print(gr)
+gr.delete_student('Taylor')
 
-# print(str(gr.find_student('Jobs2')) == str(st1))
-# print(isinstance(gr.find_student('Jobs'), Student))
+print(gr)
+
+gr.delete_student('Taylor')
+
+print(gr.find_student('Jobs'))
