@@ -1,3 +1,7 @@
+class UserException(Exception):
+    pass
+
+
 class Human:
 
     def __init__(self, gender, age, first_name, last_name):
@@ -26,25 +30,33 @@ class Student(Human):
 
 class Group:
 
-    def __init__(self, number):
+    def __init__(self, number, max_students_value=10):
+        self.max_students_value = max_students_value
         self.number = number
         self.group = set()
 
     def add_student(self, student):
+        if len(self.group) >= self.max_students_value:
+            raise UserException(f"Cannot add student: {student.first_name} {student.last_name}. "
+                                f"Maximum students value reached ({self.max_students_value}).")
         self.group.add(student)
 
     def delete_student(self, last_name):
-        current_student = self.find_student(last_name)
+        student = self.find_student(last_name)
 
-        if current_student in self.group:
-            self.group.remove(current_student)
+        if student:
+            self.group.remove(student)
         else:
             return print("Student not in the group\n")
 
     def find_student(self, last_name):
+        res = None
+
         for student in self.group:
             if student.last_name == last_name:
-                return student
+                res = student
+                break
+        return res
 
     def __str__(self):
         all_students = ''
@@ -56,23 +68,34 @@ class Group:
                 f'\n{all_students}')
 
 
-st1 = Student('Male', 30, 'Steve', 'Jobs', 'AN142')
-st2 = Student('Female', 25, 'Liza', 'Taylor', 'AN145')
+try:
+    st1 = Student('Male', 22, 'Steve', 'Jobs', 'AN142')
+    st2 = Student('Female', 25, 'Liza', 'Taylor', 'AN145')
+    st3 = Student('Male', 24, 'Alex', 'Bingo', 'AN146')
+    st4 = Student('Female', 18, 'Lina', 'Kostenko', 'AN147')
+    st5 = Student('Male', 19, 'Alex', 'Yarem', 'AN148')
+    st6 = Student('Female', 21, 'Inna', 'Demid', 'AN149')
+    st7 = Student('Male', 19, 'Andrii', 'Yuskiv', 'AN150')
+    st8 = Student('Female', 19, 'Ann', 'Sapiha', 'AN152')
+    st9 = Student('Male', 23, 'Ivan', 'Kim', 'AN152')
+    st10 = Student('Female', 24, 'Olena', 'Pchilka', 'AN153')
+    st11 = Student('Male', 25, 'Bohdan', 'Shulha', 'AN154')
 
-gr = Group('PD1')
-gr.add_student(st1)
-gr.add_student(st2)
+    gr = Group('PD1')
 
-print(gr)
+    gr.add_student(st1)
+    gr.add_student(st2)
+    gr.add_student(st3)
+    gr.add_student(st4)
+    gr.add_student(st5)
+    gr.add_student(st6)
+    gr.add_student(st7)
+    gr.add_student(st8)
+    gr.add_student(st9)
+    gr.add_student(st10)
+    gr.add_student(st11)
 
-print(str(gr.find_student('Jobs')) == str(st1))
-print(gr.find_student('Jobs2'))
-print(isinstance(gr.find_student('Jobs'), Student))
+    print(gr)
 
-gr.delete_student('Taylor')
-
-print(gr)
-
-gr.delete_student('Taylor')
-
-print(gr.find_student('Jobs'))
+except UserException as e:
+    print(e)
