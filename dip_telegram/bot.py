@@ -9,16 +9,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         ['Додати запис', 'Пошук записів'],
         ['Зберегти дані', 'Завантажити дані'],
-        ['/restart']  # Додати можливість перезавантаження
+        ['/restart']
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
-
     await update.message.reply_text("Вітаю! Виберіть дію:", reply_markup=reply_markup)
 
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_message = update.message.text
 
-    if user_message == 'Додати запис':
+    if context.user_data.get('searching'):  # Перевіряємо, чи бот у стані пошуку
+        await handle_search_data(update, context)
+    elif user_message == 'Додати запис':
         await add(update, context)
     elif user_message == 'Пошук записів':
         await search(update, context)
@@ -27,7 +28,8 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif user_message == 'Завантажити дані':
         await load(update, context)
     else:
-        await handle_add_data(update, context)  # Додано для обробки введених даних
+        await handle_add_data(update, context)
+
 
 async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -50,23 +52,36 @@ async def handle_add_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
             db.add_person(person)
             await update.message.reply_text(f"Додано: {person}")
-
-            # Скинути стан після додавання
-            context.user_data['adding'] = False
+            await update.message.reply_text(f"Записів у базі: {len(db.people)}")
+            context.user_data['adding'] = False  # Скинути стан після додавання
         except Exception as e:
             await update.message.reply_text(f"Помилка: {e}")
 
 async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Введіть запит для пошуку:")
+    context.user_data['searching'] = True  # Встановлюємо стан пошуку
+
 
 async def handle_search_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.message.text
     results = db.search(query)
 
     if results:
-        await update.message.reply_text("\n".join([str(p) for p in results]))
+        response_messages = []
+        for person in results:
+            age = person.calculate_age()  # Викликаємо метод на об'єкті person
+            gender = "чоловік" if person.gender == 'm' else "жінка"
+            birth_date = person.birth_date.strftime("%d.%m.%Y")
+            death_date = person.death_date.strftime("%d.%m.%Y") if person.death_date else "живий"
+
+            response_messages.append(
+                f"{person.first_name} {person.last_name} {age} років, {gender}. Народився: {birth_date}. Помер: {death_date}.")
+
+        await update.message.reply_text("\n".join(response_messages))
     else:
         await update.message.reply_text("Нічого не знайдено.")
+
+    context.user_data['searching'] = False
 
 async def save(update: Update, context: ContextTypes.DEFAULT_TYPE):
     db.save_to_file('people.json')
@@ -77,7 +92,7 @@ async def load(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Дані завантажено з файлу 'people.json'.")
 
 async def restart(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data.clear()  # Очищаємо дані користувача
+    context.user_data.clear()
     await update.message.reply_text("Бот перезавантажено. Виберіть дію:", reply_markup=start_keyboard())
 
 def start_keyboard():
@@ -91,8 +106,8 @@ def start_keyboard():
 app = ApplicationBuilder().token('7104180695:AAEzxjKUW3IKLJIRG6YW9SPGtwvJADx8pUs').build()
 
 app.add_handler(CommandHandler("start", start))
-app.add_handler(CommandHandler("restart", restart))  # Додати обробник для перезавантаження
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))  # Оновлено тут
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_add_data))
+app.add_handler(CommandHandler("restart", restart))
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_search_data))
 
 app.run_polling()

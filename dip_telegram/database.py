@@ -1,5 +1,6 @@
 import json
 from person import Person
+from datetime import datetime
 
 
 class PeopleDatabase:
@@ -10,7 +11,13 @@ class PeopleDatabase:
         self.people.append(person)
 
     def search(self, query):
-        return [p for p in self.people if query.lower() in (p.first_name + (p.last_name or '') + (p.middle_name or '')).lower()]
+        query = query.lower()
+        results = [p for p in self.people if
+                   query in (p.first_name or '').lower() or
+                   query in (p.last_name or '').lower() or
+                   query in (p.middle_name or '').lower()]
+        print(f"Пошуковий запит: {query}, Знайдено записів: {len(results)}")  # Додано для відлагодження
+        return results
 
     def save_to_file(self, filename):
         data = [{"first_name": p.first_name, "last_name": p.last_name, "middle_name": p.middle_name,
