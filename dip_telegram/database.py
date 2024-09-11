@@ -1,6 +1,7 @@
 import json
 from person import Person
 
+
 class PeopleDatabase:
     def __init__(self):
         self.people = []
@@ -16,11 +17,11 @@ class PeopleDatabase:
                  "birth_date": p.birth_date.strftime("%d.%m.%Y"),
                  "death_date": p.death_date.strftime("%d.%m.%Y") if p.death_date else None, "gender": p.gender}
                 for p in self.people]
-        with open(filename, 'w') as f:
-            json.dump(data, f)
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False)
 
     def load_from_file(self, filename):
-        with open(filename, 'r') as f:
+        with open(filename, 'r', encoding='utf-8') as f:
             data = json.load(f)
             for entry in data:
                 person = Person(entry['first_name'], entry['last_name'], entry['middle_name'],

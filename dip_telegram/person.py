@@ -1,4 +1,12 @@
 from datetime import datetime
+from dateutil import parser
+
+
+def parse_date(date_str):
+    try:
+        return parser.parse(date_str, dayfirst=True)
+    except ValueError:
+        raise ValueError("Incorrect date format")
 
 
 class Person:
@@ -6,18 +14,9 @@ class Person:
         self.first_name = first_name
         self.last_name = last_name
         self.middle_name = middle_name
-        self.birth_date = self.parse_date(birth_date)
-        self.death_date = self.parse_date(death_date) if death_date else None
+        self.birth_date = parse_date(birth_date)
+        self.death_date = parse_date(death_date) if death_date else None
         self.gender = gender
-
-    def parse_date(self, date_str):
-        date_formats = ["%d.%m.%Y", "%d %m %Y", "%d/%m/%Y", "%d-%m-%Y"]
-        for fmt in date_formats:
-            try:
-                return datetime.strptime(date_str, fmt)
-            except ValueError:
-                pass
-        raise ValueError("Incorrect date format")
 
     def calculate_age(self):
         end_date = self.death_date if self.death_date else datetime.now()
