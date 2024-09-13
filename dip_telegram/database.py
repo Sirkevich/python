@@ -16,7 +16,7 @@ class PeopleDatabase:
                    query in (p.first_name or '').lower() or
                    query in (p.last_name or '').lower() or
                    query in (p.middle_name or '').lower()]
-        print(f"Пошуковий запит: {query}, Знайдено записів: {len(results)}")  # Додано для відлагодження
+        print(f"Пошуковий запит: {query}, Знайдено записів: {len(results)}")  # Для відлагодження
         return results
 
     def save_to_file(self, filename):
