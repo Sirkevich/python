@@ -90,7 +90,37 @@ async def handle_add_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 context.user_data['gender']
             )
             db.add_person(person)
-            await update.message.reply_text(f"Додано: {person}")
+
+            # Формуємо правильне повідомлення
+            birth_word = "народилася" if person.gender == 'f' else "народився"
+            death_word = "померла" if person.gender == 'f' else "помер"
+            birth_date = person.birth_date.strftime("%d.%m.%Y")
+            death_date = person.death_date.strftime("%d.%m.%Y") if person.death_date else ""
+
+            age = person.calculate_age()
+            gender_str = "жінка" if person.gender == 'f' else "чоловік"
+
+            # Формуємо правильне закінчення слова "рік"
+            if age % 10 == 1 and age % 100 != 11:
+                age_str = f"{age} рік"
+            elif 2 <= age % 10 <= 4 and not (12 <= age % 100 <= 14):
+                age_str = f"{age} роки"
+            else:
+                age_str = f"{age} років"
+
+            # Формуємо повне ім'я
+            full_name = person.first_name
+            if person.middle_name:
+                full_name += f" {person.middle_name}"
+            if person.last_name:
+                full_name += f" {person.last_name}"
+
+            # Формуємо фінальне повідомлення
+            response = f"Додано: {full_name}, {age_str}, {gender_str}. {birth_word.capitalize()}: {birth_date}."
+            if person.death_date:
+                response += f" {death_word.capitalize()}: {death_date}."
+
+            await update.message.reply_text(response)
             context.user_data['adding_step'] = None  # Скидаємо крок додавання
         except Exception as e:
             await update.message.reply_text(f"Помилка: {e}")
@@ -105,6 +135,7 @@ async def handle_add_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("Будь ласка, введіть значення або залиште порожнім:")
         else:
             await update.message.reply_text("Невірний ввід. Введіть 'так' або 'ні'.")
+
 
 
 async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
