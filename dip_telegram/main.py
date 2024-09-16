@@ -53,12 +53,12 @@ async def handle_add_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if context.user_data.get('adding_step') == 'first_name':
         context.user_data['first_name'] = text
-        await update.message.reply_text("Введіть прізвище (можна залишити порожнім):")
+        await update.message.reply_text("Введіть прізвище (можна пропустити, ввівши '-'):")  # Оновлено повідомлення
         context.user_data['adding_step'] = 'last_name'
 
     elif context.user_data.get('adding_step') == 'last_name':
         context.user_data['last_name'] = text
-        await update.message.reply_text("Введіть по-батькові (якщо є) або залиште порожнім:")
+        await update.message.reply_text("Введіть по-батькові (можна пропустити, ввівши '-'):")  # Оновлено повідомлення
         context.user_data['adding_step'] = 'middle_name'
 
     elif context.user_data.get('adding_step') == 'middle_name':
@@ -68,7 +68,7 @@ async def handle_add_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif context.user_data.get('adding_step') == 'birth_date':
         context.user_data['birth_date'] = text
-        await update.message.reply_text("Введіть дату смерті (якщо є) або залиште порожнім:")
+        await update.message.reply_text("Введіть дату смерті (можна пропустити, ввівши '-'):")  # Оновлено повідомлення
         context.user_data['adding_step'] = 'death_date'
 
     elif context.user_data.get('adding_step') == 'death_date':
