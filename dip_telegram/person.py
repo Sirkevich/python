@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class Person:
     def __init__(self, first_name, last_name=None, middle_name=None, birth_date=None, death_date=None, gender=None):
         self.first_name = first_name
@@ -39,17 +40,38 @@ class Person:
         if self.last_name:
             full_name += f" {self.last_name}"
 
+        # Функція для підбору правильного закінчення для слова "рік"
+        def get_year_ending(age):
+            if 11 <= age % 100 <= 14:
+                return "років"
+            elif age % 10 == 1:
+                return "рік"
+            elif 2 <= age % 10 <= 4:
+                return "роки"
+            else:
+                return "років"
+
+        def get_year_word(age):
+            if 11 <= age % 100 <= 19:  # Вік від 11 до 19 років, завжди "років"
+                return "років"
+            last_digit = age % 10
+            if last_digit == 1:
+                return "рік"
+            elif 2 <= last_digit <= 4:
+                return "роки"
+            else:
+                return "років"
+
         # Форматування: ПІБ, вік, стать, дата народження
         if self.birth_date:
             age = self.calculate_age()
-            output = f"{full_name}, {age} років, {gender_str}. Народився: {self.birth_date.strftime('%d.%m.%Y')}."
+            age_str = f"{age} {get_year_ending(age)}"
+            output = f"{full_name}, {age_str}, {gender_str}. Народився: {self.birth_date.strftime('%d.%m.%Y')}."
         else:
             output = f"{full_name} народився: дата невідома."
 
         # Додаємо інформацію про дату смерті, якщо вона є
         if self.death_date:
             output += f" Помер: {self.death_date.strftime('%d.%m.%Y')}."
-        else:
-            output += " Живий."
 
         return output.strip()

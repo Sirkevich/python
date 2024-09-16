@@ -123,6 +123,20 @@ async def handle_search_data(update: Update, context: ContextTypes.DEFAULT_TYPE)
             gender = "чоловік" if person.gender == 'm' else "жінка"
             birth_date = person.birth_date.strftime("%d.%m.%Y")
 
+            # Отримуємо правильне слово для віку через метод get_year_word
+            def get_year_word(age):
+                if 11 <= age % 100 <= 19:  # Вік від 11 до 19 років
+                    return "років"
+                last_digit = age % 10
+                if last_digit == 1:
+                    return "рік"
+                elif 2 <= last_digit <= 4:
+                    return "роки"
+                else:
+                    return "років"
+
+            year_word = get_year_word(age)
+
             # Формуємо повне ім'я
             full_name = person.first_name
             if person.middle_name:
@@ -133,12 +147,15 @@ async def handle_search_data(update: Update, context: ContextTypes.DEFAULT_TYPE)
             # Перевіряємо, чи є дата смерті
             death_info = ""
             if person.death_date:
-                death_info = f". Помер: {person.death_date.strftime('%d.%m.%Y')}."
+                death_word = "померла" if person.gender == 'f' else "помер"
+                death_info = f". {death_word.capitalize()}: {person.death_date.strftime('%d.%m.%Y')}."
             else:
                 death_info = "."
 
+            birth_word = "народилася" if person.gender == 'f' else "народився"
+
             response_messages.append(
-                f"{full_name} {age} років, {gender}. Народився: {birth_date}{death_info}"
+                f"{full_name} {age} {year_word}, {gender}. {birth_word.capitalize()}: {birth_date}{death_info}"
             )
 
         await update.message.reply_text("\n".join(response_messages))
@@ -146,7 +163,6 @@ async def handle_search_data(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text("Нічого не знайдено.")
 
     context.user_data['searching'] = False
-
 
 
 async def save(update: Update, context: ContextTypes.DEFAULT_TYPE):
