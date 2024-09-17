@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Результати пошуку</title>
+</head>
+<body>
+    <h1>Результати пошуку</h1>
+    <ul>
+        {% for person in results %}
+            <li>{{ person }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/">На головну</a>
+</body>
+</html>

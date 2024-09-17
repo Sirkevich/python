@@ -39,7 +39,7 @@ assert r2.get_square() == 2852, 'Test2'
 
 r3 = r1 + r2
 assert r3.get_square() == 3027, 'Test3'
-
+print(r3)
 r4 = r3 * 4
 
 assert r4.get_square() == 12108, 'Test4'

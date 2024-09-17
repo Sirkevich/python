@@ -10,10 +10,20 @@ class Person:
         self.death_date = self.parse_date(death_date) if death_date else None
         self.gender = gender
 
+    def __eq__(self, other):
+        if isinstance(other, Person):
+            return (self.first_name == other.first_name and
+                    self.last_name == other.last_name and
+                    self.middle_name == other.middle_name and
+                    self.birth_date == other.birth_date)
+        return False
+
+    def __hash__(self):
+        return hash((self.first_name, self.last_name, self.middle_name, self.birth_date))
 
     def parse_date(self, date_str):
         if date_str and date_str != "-":
-            for fmt in ("%d.%m.%Y", "%d %m %Y", "%m/%d/%Y", "%m-%d-%Y"):
+            for fmt in ("%d.%m.%Y", "%d %m %Y", "%d/%m/%Y", "%d-%m-%Y"):
                 try:
                     return datetime.strptime(date_str, fmt).date()
                 except ValueError:
