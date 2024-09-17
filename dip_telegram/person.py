@@ -10,14 +10,14 @@ class Person:
         self.death_date = self.parse_date(death_date) if death_date else None
         self.gender = gender
 
-    def __eq__(self, other):
-        if isinstance(other, Person):
-            return (self.first_name, self.last_name, self.middle_name, self.birth_date, self.death_date, self.gender) == \
-                (other.first_name, other.last_name, other.middle_name, other.birth_date, other.death_date, other.gender)
-        return False
-
-    def __hash__(self):
-        return hash((self.first_name, self.last_name, self.middle_name, self.birth_date, self.death_date, self.gender))
+    # def __eq__(self, other):
+    #     if isinstance(other, Person):
+    #         return (self.first_name, self.last_name, self.middle_name, self.birth_date, self.death_date, self.gender) == \
+    #             (other.first_name, other.last_name, other.middle_name, other.birth_date, other.death_date, other.gender)
+    #     return False
+    #
+    # def __hash__(self):
+    #     return hash((self.first_name, self.last_name, self.middle_name, self.birth_date, self.death_date, self.gender))
 
     def parse_date(self, date_str):
         if date_str and date_str != "-":
@@ -60,16 +60,16 @@ class Person:
             else:
                 return "років"
 
-        def get_year_word(age):
-            if 11 <= age % 100 <= 19:  # Вік від 11 до 19 років, завжди "років"
-                return "років"
-            last_digit = age % 10
-            if last_digit == 1:
-                return "рік"
-            elif 2 <= last_digit <= 4:
-                return "роки"
-            else:
-                return "років"
+        # def get_year_word(age):
+        #     if 11 <= age % 100 <= 19:  # Вік від 11 до 19 років, завжди "років"
+        #         return "років"
+        #     last_digit = age % 10
+        #     if last_digit == 1:
+        #         return "рік"
+        #     elif 2 <= last_digit <= 4:
+        #         return "роки"
+        #     else:
+        #         return "років"
 
         # Форматування: ПІБ, вік, стать, дата народження
         if self.birth_date:
