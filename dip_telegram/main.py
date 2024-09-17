@@ -5,6 +5,7 @@ from person import Person
 
 db = PeopleDatabase()
 
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         ['Додати запис', 'Пошук записів'],
@@ -31,9 +32,11 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await handle_add_data(update, context)
 
+
 async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Введіть ім'я:")
     context.user_data['adding_step'] = 'first_name'
+
 
 async def handle_add_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()

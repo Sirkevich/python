@@ -1,32 +1,23 @@
 import json
 from person import Person
-from datetime import datetime
 
 
 class PeopleDatabase:
     def __init__(self):
-        self.people = []
+        self.people = set()  # Використовуємо множину
 
     def add_person(self, person):
-        self.people.append(person)
+        self.people.add(person)  # Додаємо до множини
 
     def search(self, query):
-        # Розбиваємо пошуковий запит на окремі слова
         search_terms = query.lower().split()
-
-        # Створюємо список для збереження результатів
         results = []
 
-        # Проходимо по кожній людині в базі даних
         for person in self.people:
-            # Об'єднуємо всі релевантні поля в одну строку для пошуку
             person_data = f"{person.first_name or ''} {person.middle_name or ''} {person.last_name or ''}".lower()
-
-            # Перевіряємо, чи всі пошукові слова є в інформації про людину
             if all(term in person_data for term in search_terms):
                 results.append(person)
 
-        print(f"Пошуковий запит: {query}, Знайдено записів: {len(results)}")  # Для відлагодження
         return results
 
     def save_to_file(self, filename):
